@@ -7,7 +7,7 @@ const ll MOD = 1e9+7;
 
 namespace skentagon::util {
   template <class T>
-  #if __cplusplus > 201703L
+  #if __cplusplus > 201709L
   concept bool class_mod = requires( T a, T b ){
     a+b;
     a-b;
