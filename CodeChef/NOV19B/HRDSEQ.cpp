@@ -14,7 +14,7 @@ typedef long long ll;
 #define all(x) (x).begin(), (x).end()
 
 int main(){
-  vector<int> d{128};
+  vector<int> d(128);
   d[0]=0;
   rep(i,127){
     decltype(d)::iterator it = find_end( d.begin(), d.begin()+i, d.begin()+i, d.begin()+i+1 );
@@ -23,12 +23,11 @@ int main(){
     }else{
       d[i+1]=i-distance(d.begin(),it);
     }
-    co(d[i])
   }
   int test_case;
   cin >> test_case;
   rep( test_case_cnt, test_case ){
     int i;cin>>i;
-    co(count(all(d),d[i-1])+1);
+    co(count(d.begin(),d.begin()+i,d[i-1]));
   }
 }
