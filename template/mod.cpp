@@ -19,9 +19,43 @@ namespace skentagon::util {
   #endif
   class mod {
     public:
-      mod( const T& t = 0, const T& mod = 1e9+7 ) value(t) mod(mod) : {}
-      mod& operator+=( const mod& rhs ){ value = (value+rhs) % mod; return *this;}
-      mod& operator-=( const mod& rhs ){ value = (value-rhs) % mod; if(value<0)value+=mod; return *this; }
+      mod( const T& t = 0, const T& mod = 1e9+7 ) value(t), mod(mod) : {}
+      mod( mod<T>& rhs ) value(rhs.value) : {}
+      mod( mod<T>&& rhs ) value(std::move(rhs.value)) : {}
+      // Four arithmetic operations
+      template<class TR>
+      mod& operator+=( const TR& rhs ){ value = (value+rhs)%mod; return *this; }
+      template<class TR>
+      mod& operator+=( const mod<TR>& rhs ){ *this += rhs.value; return *this; }
+      template<class TR>
+      mod& operator+( const TR& rhs ) const { mod<T> t(*this); return (t+=rhs); }
+      mod operator++(int){ mod<T> t(*this); *this+=1; return t; }
+      mod& operator++(){ *this+=1; return *this; }
+      template<class TR>
+      mod& operatpr-=( const TR& rhs ){ value = (value-rhs) % mod; if(value<0)value+=mod; return *this; }
+      template<class TR>
+      mod& operator-=( const mod<TR>& rhs ){ *this -= rhs.value; return *this; }
+      template<class TR>
+      mod& operator-( const TR& rhs ) const { mod<T> t(*this); return (t-=rhs); }
+      mod operator--(int){ mod<T> t(*this); *this-=1; return t; }
+      template<class TR>
+      mod& oerator*=( const TR& rhs ){ value = (value*(rhs%mod))%mod; return *this; }
+      template<class TR>
+      mod& operator*=( const mod<TR>& rhs ){ *this *= rhs.value; return *this; }
+      template<class TR>
+      mod& operator*( const TR& rhs ) const { mod<T> t(*this); return (t*=rhs); }
+      template<class TR>
+      mod& operator/=( const TR& rhs ){ value = this->inv()*rhs; }
+      template<class TR>
+      mod& divcache( const mod<TR>& rhs, const mod<TR>& cache ){ value = (cache.value*rhs.value)%mod; return *this; }
+      //Logical operations
+      mod operator~() const;
+      bool operator!() const noexcept { return !static_cast<bool>(*this); }
+      //casts
+      operator bool() const noexcept { return static_cast<bool>(value); }
+      operator T() const noexcept { return value; }
+      template<class TR>
+      explicit operator TR() const noexcept { return static_cast<TR>(value); }
       template <class T1>
       const mod& operator^( const T1& rhs ){
         T res = 1, a = lhs.value, n = rhs.value;
@@ -30,7 +64,7 @@ namespace skentagon::util {
           a = a * a % mod;
           n >>= 1;
         }
-        return std::move( mod<T>(res,mod) );
+        return std::move( mod<T>(res) );
       }
       const mod& inv(){
         T a = 1, b = mod, u = 1, v = 0;
@@ -41,8 +75,11 @@ namespace skentagon::util {
         }
         u %= m;
         if(u<0)u+=m;
-        return std::move( mod(u,mod) );
+        return std::move( mod(u) );
       }
+      //io
+
+      //system
       void setMod( const T& mod ){ this->mod = mod; }
     private:
       T value;
@@ -56,6 +93,6 @@ namespace skentagon::util {
       a = a * a % mod;
       n >>= 1;
     }
-    return std::move( mod<T>(res,mod) );
+    return std::move( mod<T>(res) );
   }
 }
