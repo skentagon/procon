@@ -23,10 +23,20 @@ struct {
   int dst = 0;
   bool isOnNode(){ return (!dst); }
   bool isOn( int x ){ return isOnNode()&&(from==x); }
-  void move( int x ){
-    if (to==x)++dst;
-    if (from==x)--dst;
-    if (isOnNode()){to=x;dst=1;}
+  void move( int x, vector<pair<int,int>>& edge, bool sw = true ){
+    if (isOnNode()){
+      to=x;dst=1;
+      if (edge.end()==find(all(edge),pair<int,int>(min(from,to),max(from,to)))){
+        puts("-1");
+        dst=0;
+        return;
+      }
+    }else if (to==x){
+      ++dst;
+    }else if (from==x){
+      --dst;
+    }
+    cout << (x+1) << endl;
   }
   bool chkIsReached( vector<vector<int>>& fx ){
     if (dst==fx[from][to]){
@@ -37,16 +47,57 @@ struct {
   }
 } car;
 array<order,9501> odr;
-list<int> dst;
-vector<int> waitingOrders;
-vector<int> stackingOrders;
 
-void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd );
+struct {
+  vector<int> dst;
+  int& front(){ return dst.front(); }
+  bool empty(){ return dst.empty(); }
+  void push_back( const int& x ){ int t(x); push_back(std::move(t)); }
+  void push_back( int&& x ){ if (find(all(dst),x)==dst.end())dst.push_back(x); }
+  size_t size(){ return dst.size(); }
+  void reach( const int& x ){ dst.erase(remove_if(all(dst),[&](int y){return x==y;}),dst.end()); }
+} dst;
+
+struct order_cost_functional {
+  int pow = 0;
+  ll lnr = 0;
+  ll cst = 0;
+  ll getCost( const int t ){ return pow ? t_max*t_max - (pow * t*t + lnr * t + cst) : 0; }
+  void reset(){pow=0;lnr=0;cst=0;}
+  void add( const int x ){ ++pow; lnr -= 2*(odr[x].t); cst += (odr[x].t)*(odr[x].t); }
+  void rm( const int x ){ --pow; lnr += 2*(odr[x].t); cst -= (odr[x].t)*(odr[x].t); }
+};
+
+struct {
+  vector<int> v;
+  vector<order_cost_functional> cost;
+  void putAll(){ v.erase(all(v)); rpv(cost){v.reset();} }
+  void alloc( const int x ){ cost.reserve(x); }
+  void push_back( const int& x ){
+    v.push_back(x);
+    cost[x].add(x);
+  }
+} waitingOrders;
+
+struct {
+  vector<int> v;
+  vector<order_cost_functional> cost;
+  void putAll(){ v.erase(all(v)); rpv(cost){v.reset();} }
+  void alloc( const int x ){ cost.reserve(x); }
+  void push_back( const int& x ){
+    v.push_back(x);
+    cost[x].add(x);
+  }
+  void reach( const int x ){ cost[x].reset(); }
+} stackingOrders;
+
+void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd, vector<pair<int,int>>& edge );
 void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd );
 void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd );
 void getInputOrders( int t );
 void getInputStacks();
 bool getInputResult();
+ll sumilate( int t, int cur, const vector<int>& d, const vector<vector<int>>& fx );
 
 struct order_local{
   int t;
@@ -67,16 +118,15 @@ void getInputOrders( int t, vector<order_local>& d ){
   rep(i,d[t].odr.size()){
     odr[d[t].odr[i].t].dst = d[t].odr[i].dst - 1;
     odr[d[t].odr[i].t].t = t;
-    odr[d[t].odr[i].t].sw = true;
     waitingOrders.push_back(d[t].odr[i].t);
   }
 }
 void getInputStacks(){
   if (!car.isOn(0))return;
-  rpv(waitingOrders){
+  rpv(waitingOrders.v){
     dst.push_back(odr[v].dst);
   }
-  waitingOrders.erase(all(waitingOrders));
+  waitingOrders.putAll();
 }
 
 int main(){
@@ -85,9 +135,10 @@ int main(){
   vector<int> f(v_num);
   vector<vector<int>> fx(v_num,vector<int>(v_num));
   vector<vector<int>> fd(v_num,vector<int>(v_num));
+  vector<pair<int,int>> edge(e_num);
+  waitingOrders.alloc(v_num);
   initializeBuffer( fx, fd );
-  getInputGraph( fx, fd );
-  //rpv(f){cn(v)} //f_sum = accumulate(all(f),0);
+  getInputGraph( fx, fd, edge );
   cin >> t_max;
   vector<order_local> order_lc(t_max);
   getInputInfo(order_lc);
@@ -108,43 +159,46 @@ int main(){
     }else{
       if (dst.empty())dst.push_back(0);
       car.chkIsReached(fx);
-      if (car.dst){
-        if ( fx[dst.front()][car.from] < fx[dst.front()][car.to] ){
-          co(car.from+1)
-          --car.dst;
+      if (!car.isOnNode()){
+        if ( fx[car.from][dst.front()] < fx[car.to][dst.front()] ){
+          car.move(car.from,edge);
         }else{
-          co(car.to+1)
-          ++car.dst;
+          car.move(car.to,edge);
         }
       }else{
-        dst.remove_if([&](int x){return x==car.from;});
-        co(fd[car.from][dst.front()]+1)
-        car.to=fd[car.from][dst.front()];
-        ++car.dst;
+        vector<int> tv(2);
+        int ans = -1;
+        ll tmp = 0;
+        if (dst.size()>1){
+          rep(i,dst.size()){
+            rep(j,dst.size()){
+              if (i==j)continue;
+              tv[0] = dst.dst[i]; tv[1] = dst.dst[j];
+              auto tt = sumilate( t, car.from, tv, fx );
+              //cout << "res: " << dst.dst[i] << "," << dst.dst[j] << " : " << tt << endl;
+              if (tt>tmp){
+                tmp = tt;
+                ans = i;
+              }
+            }
+          }
+        }
+        if (ans>0){swap(dst.dst[ans],dst.dst[0]);}
+        car.move(fd[car.from][dst.front()],edge);
       }
     }
   }
 }
 
-bool getInputResult(){
-  string s;cn(s)
-  if (s=="NG")return true;
-  int n;cn(n)rep(i,n){
-    int id;cn(id)
-    odr[id].t=false;
+ll sumilate( int t, int cur, const vector<int>& d, const vector<vector<int>>& fx ){
+  int c = cur;
+  int pass = t;
+  ll ans = 0;
+  rpv(d){
+    pass += fx[c][v]; c = v;
+    ans += stackingOrders.cost[v].getCost(pass);
   }
-  return false;
-}
-
-void getInputOrders( int t ){
-  int n;cn(n)
-  rep(i,n){
-    int id,dst; cn(id)
-    cn(odr[id].dst)
-    --(odr[id].dst);
-    odr[id].t=t;
-    odr[id].sw=true;
-  }
+  return ans;
 }
 
 void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
@@ -165,11 +219,13 @@ void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
   }//*/
 }
 
-void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
+void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd, vector<pair<int,int>>& edge ){
   rep(i,e_num){
     int v1,v2,d;
     cin >> v1 >> v2 >> d;
     --v1; --v2;
+    edge[i].first = min(v1,v2);
+    edge[i].second = max(v1,v2);
     fx[v1][v2] = d;
     fx[v2][v1] = d;
     fd[v1][v2] = v2;

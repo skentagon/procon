@@ -9,11 +9,23 @@ typedef long long ll;
 #define cn(n) cin >> n;
 #define all(x) (x).begin(), (x).end()
 
-int v_num, e_num, f_sum;
+int v_num, e_num, f_sum, t_max;
+
+struct {
+  vector<vector<int>> fx;
+  void alloc(const int x){ fx.reserve(x); cout << fx.size() << endl; rpv(fx){v.reserve(x);} rep(i,x){rep(j,x){if (i!=j){fx[i][j]=0x7fff;}else{fx[i][j]=0;}}} puts("hoge"); }
+  vector<int>& operator[](int n){ return fx[n]; }
+} fx;
+
+struct {
+  vector<vector<int>> fd;
+  void alloc(const int x){ fd.reserve(x); rpv(fd){v.reserve(x);} rep(i,x){rep(j,x){fd[i][j]=-1;}} }
+  vector<int>& operator[](int n){ return fd[n]; }
+} fd;
+
 struct order{
   int dst;
   int t;
-  bool sw = false;
 };
 struct {
   int from = 0;
@@ -21,12 +33,28 @@ struct {
   int dst = 0;
   bool isOnNode(){ return (!dst); }
   bool isOn( int x ){ return isOnNode()&&(from==x); }
-  void move( int x ){
-    if (to==x)++dst;
-    if (from==x)--dst;
-    if (isOnNode()){to=x;dst=1;}
+  void set( int x ){ from=x; to=(x+1)%v_num; dst=0; }
+  void setTo( int x ){
+    if (!isOnNode())throw;
+    to=fd[from][x];
   }
-  bool chkIsReached( vector<vector<int>>& fx ){
+  void move( int x, bool sw = false ){
+    if (isOnNode()){
+      to=x;dst=1;
+      /*if (edge.end()==find(all(edge),pair<int,int>(min(from,to),max(from,to)))){
+        puts("-1");
+        dst=0;
+        return;
+      }//*/
+    }else if (to==x){
+      ++dst;
+    }else if (from==x){
+      --dst;
+    }
+    if (sw)return;
+    cout << (x+1) << endl;
+  }
+  bool chkIsReached(){
     if (dst==fx[from][to]){
       from=to;dst=0;
       return true;
@@ -35,30 +63,76 @@ struct {
   }
 } car;
 array<order,9501> odr;
-list<int> dst;
-vector<int> waitingOrders;
-vector<int> stackingOrders;
+struct {
+  vector<int> dst;
+  int& front(){ return dst.front(); }
+  bool empty(){ return dst.empty(); }
+  void push_back( const int& x ){ int t(x); push_back(std::move(t)); }
+  //void push_back( int&& x ){ if (find(all(dst),x)==dst.end())dst.push_back(x); }
+  size_t size(){ return dst.size(); }
+  void reach( const int& x ){ dst.erase(remove_if(all(dst),[&](int y){return x==y;}),dst.end()); }
+} dst;
 
-void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd );
-void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd );
-void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd );
+struct order_cost_functional {
+  int pow = 0;
+  ll lnr = 0;
+  ll cst = 0;
+  ll getCost( const int t ){ return pow ? t_max*t_max - (pow * t*t + lnr * t + cst) : 0; }
+  void reset(){pow=0;lnr=0;cst=0;}
+  void add( const int x ){ ++pow; lnr -= 2*(odr[x].t); cst += (odr[x].t)*(odr[x].t); }
+  void rm( const int x ){ --pow; lnr += 2*(odr[x].t); cst -= (odr[x].t)*(odr[x].t); }
+};
+
+struct {
+  vector<int> v;
+  vector<order_cost_functional> cost;
+  void putAll(){ v.erase(all(v)); rpv(cost){v.reset();} }
+  void alloc( const int x ){ cost.reserve(x); }
+  void push_back( const int& x ){
+    v.push_back(x);
+    cost[x].add(x);
+  }
+} waitingOrders;
+
+struct {
+  vector<int> v;
+  vector<order_cost_functional> cost;
+  void putAll(){ v.erase(all(v)); rpv(cost){v.reset();} }
+  void alloc( const int x ){ cost.reserve(x); }
+  void push_back( const int& x ){
+    v.push_back(x);
+    cost[x].add(x);
+  }
+  void reach( const int x ){ cost[x].reset(); }
+} stackingOrders;
+
+//void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd, vector<pair<int,int>>& edge );
+void getInputGraph();
+//void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd );
+void calcGraph();
 void getInputOrders( int t );
 void getInputStacks();
 bool getInputResult();
+ll sumilate( int t, int cur, const vector<int>& d );
 
 int main(){
   // Initialize
   cin >> v_num >> e_num;
   vector<int> f(v_num);
-  vector<vector<int>> fx(v_num,vector<int>(v_num));
-  vector<vector<int>> fd(v_num,vector<int>(v_num));
-  initializeBuffer( fx, fd );
-  getInputGraph( fx, fd );
+  //vector<vector<int>> fx(v_num,vector<int>(v_num));
+  //vector<vector<int>> fd(v_num,vector<int>(v_num));
+  vector<pair<int,int>> edge(e_num);
+  fx.alloc(v_num);
+  fd.alloc(v_num);
+  waitingOrders.alloc(v_num);
+  stackingOrders.alloc(v_num);
+  //initializeBuffer( fx, fd );
+  getInputGraph();
   rpv(f){cn(v)} //f_sum = accumulate(all(f),0);
-  int t_max; cin >> t_max;
+  cin >> t_max;
 
   // Pre processing
-  calcGraph( fx, fd );
+  calcGraph();
 
   // Each Steps
   rep(t,t_max){
@@ -66,31 +140,60 @@ int main(){
     getInputStacks();
     /*cout << "car:" << car.from << "," << car.to << "," << car.dst << endl;
     cout << "d ";
-    rpv(dst){cout << v << " ";}
+    rpv(dst.dst){cout << v << " ";}
     cout << endl;//*/
+    if (car.isOnNode())dst.reach(car.from);
     if (dst.empty()&&car.isOn(0)){
       puts("-1");
     }else{
       if (dst.empty())dst.push_back(0);
-      car.chkIsReached(fx);
-      if (car.dst){
-        if ( fx[dst.front()][car.from] < fx[dst.front()][car.to] ){
-          co(car.from+1)
-          --car.dst;
+      car.chkIsReached();
+      if (!car.isOnNode()){
+        car.move(car.to);
+        /*if ( fx[car.from][dst.front()] < fx[car.to][dst.front()] ){
+          car.move(car.from,edge);
         }else{
-          co(car.to+1)
-          ++car.dst;
-        }
+          car.move(car.to,edge);
+        }//*/
       }else{
-        dst.remove_if([&](int x){return x==car.from;});
-        co(fd[car.from][dst.front()]+1)
-        car.to=fd[car.from][dst.front()];
-        ++car.dst;
+        vector<int> tv(2);
+        int ans = -1;
+        ll tmp = 0;
+        if (dst.size()>1){
+          rep(i,dst.size()){
+            rep(j,dst.size()){
+              if (i==j)continue;
+              tv[0] = dst.dst[i]; tv[1] = dst.dst[j];
+              auto tt = sumilate( t, car.from, tv );
+              //cout << "res: " << dst.dst[i] << "," << dst.dst[j] << " : " << tt << endl;
+              if (tt>tmp){
+                tmp = tt;
+                ans = i;
+              }
+            }
+          }
+        }
+        if (ans>0){swap(dst.dst[ans],dst.dst[0]);}
+        /*cout << "d : "//
+        rpv(dst.dst){cout << v << " ";}
+        cout << endl;//*/
+        car.setTo(dst.front());
+        //car.move(fd[car.from][dst.front()]);
       }
     }
     if(getInputResult())break;
-    //puts("end");
   }
+}
+
+ll sumilate( int t, int cur, const vector<int>& d ){
+  int c = cur;
+  int pass = t;
+  ll ans = 0;
+  rpv(d){
+    pass += fx[c][v]; c = v;
+    ans += stackingOrders.cost[v].getCost(pass);
+  }
+  return ans;
 }
 
 bool getInputResult(){
@@ -98,31 +201,34 @@ bool getInputResult(){
   if (s=="NG")return true;
   int n;cn(n)rep(i,n){
     int id;cn(id)
-    odr[id].t=false;
+    car.set(odr[id].dst);
+    stackingOrders.reach(odr[id].dst);
   }
   return false;
 }
 
 void getInputStacks(){
-  int n;cn(n)
-  if (n){car.from=0; car.dst=0;}
+  int n; cin >> n;
+  if (!n)return;
+  car.set(0);
   rep(i,n){
     int id;cn(id)
     dst.push_back(odr[id].dst);
+    stackingOrders.push_back(id);
   }
+  waitingOrders.putAll();
 }
 
 void getInputOrders( int t ){
-  int n;cn(n)
-  rep(i,n){
-    int id,dst; cn(id)
-    cn(odr[id].dst)
-    --(odr[id].dst);
-    odr[id].t=t;
-  }
+  int n; cin >> n;
+  if (!n)return;
+  int id,dst; cin >> id >> dst;
+  odr[id].dst = dst - 1;
+  odr[id].t = t;
+  waitingOrders.push_back(id);
 }
 
-void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
+void calcGraph(){
   rep(k,v_num){
     rep(i,v_num){
       rep(j,v_num){
@@ -133,29 +239,26 @@ void calcGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
       }
     }
   }
-  /*rep(i,v){
-    rep(j,v){
+  /*rep(i,v_num){
+    rep(j,v_num){
       cout << "[" << i << "," << j << "] : " << fx[i][j] << " to " << fd[i][j] << endl;
     }
   }//*/
 }
 
-void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd ){
+void getInputGraph(){
   rep(i,e_num){
     int v1,v2,d;
     cin >> v1 >> v2 >> d;
     --v1; --v2;
+    //edge[i].first = min(v1,v2);
+    //edge[i].second = max(v1,v2);
     fx[v1][v2] = d;
     fx[v2][v1] = d;
     fd[v1][v2] = v2;
     fd[v2][v1] = v1;
   }
   /*rpv(edge){
-    cout << get<0>(v) << "," << get<1>(v) << endl;
+    cout << v.first << "," << v.second << endl;
   }//*/
-}
-
-void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd ){
-  rep(i,v_num){rep(j,v_num){if (i!=j){fx[i][j]=0x7fff;}else{fx[i][j]=0;}}}
-  rep(i,v_num){rep(j,v_num){fd[i][j]=-1;}}
 }
