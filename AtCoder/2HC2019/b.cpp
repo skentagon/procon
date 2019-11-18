@@ -13,7 +13,7 @@ int v_num, e_num, f_sum, t_max;
 
 struct {
   vector<vector<int>> fx;
-  void alloc(const int x){ fx.reserve(x); cout << fx.size() << endl; rpv(fx){v.reserve(x);} rep(i,x){rep(j,x){if (i!=j){fx[i][j]=0x7fff;}else{fx[i][j]=0;}}} puts("hoge"); }
+  void alloc(const int x){ fx.reserve(x); rpv(fx){v.reserve(x);} rep(i,x){rep(j,x){if (i!=j){fx[i][j]=0x7fff;}else{fx[i][j]=0;}}} }
   vector<int>& operator[](int n){ return fx[n]; }
 } fx;
 
@@ -108,7 +108,7 @@ struct {
 
 //void getInputGraph( vector<vector<int>>& fx, vector<vector<int>>& fd, vector<pair<int,int>>& edge );
 void getInputGraph();
-//void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd );
+void initializeBuffer( vector<vector<int>>& fx, vector<vector<int>>& fd );
 void calcGraph();
 void getInputOrders( int t );
 void getInputStacks();
@@ -119,14 +119,14 @@ int main(){
   // Initialize
   cin >> v_num >> e_num;
   vector<int> f(v_num);
-  //vector<vector<int>> fx(v_num,vector<int>(v_num));
-  //vector<vector<int>> fd(v_num,vector<int>(v_num));
+  vector<vector<int>> fx(v_num,vector<int>(v_num));
+  vector<vector<int>> fd(v_num,vector<int>(v_num));
   vector<pair<int,int>> edge(e_num);
-  fx.alloc(v_num);
-  fd.alloc(v_num);
+  //fx.alloc(v_num);
+  //fd.alloc(v_num);
   waitingOrders.alloc(v_num);
   stackingOrders.alloc(v_num);
-  //initializeBuffer( fx, fd );
+  initializeBuffer( fx, fd );
   getInputGraph();
   rpv(f){cn(v)} //f_sum = accumulate(all(f),0);
   cin >> t_max;
