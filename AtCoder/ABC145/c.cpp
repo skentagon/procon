@@ -21,5 +21,5 @@ int main(){
       ans += sqrt( ( d[i].first - d[j].first )*( d[i].first - d[j].first ) + ( d[i].second - d[j].second )*( d[i].second - d[j].second ) );
     }
   }
-  cout << setw(10) << ans*2/(n*(n-1)) << endl;
+  cout << setprecision(10) << ans/n << endl;
 }
