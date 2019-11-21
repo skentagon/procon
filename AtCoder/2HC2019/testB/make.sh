@@ -1,0 +1,1 @@
+g++ -std=gnu++11 -o judge ../toolkitB/scripts/judge.cpp

@@ -33,6 +33,7 @@ struct order{
   int dst;
   int t;
 };
+
 struct {
   int from = 0;
   int to = 1;
@@ -48,18 +49,13 @@ struct {
   void move( int x, bool sw = false ){
     if (isOnNode()){
       to=x;dst=1;
-      /*if (edge.end()==find(all(edge),pair<int,int>(min(from,to),max(from,to)))){
-        puts("-1");
-        dst=0;
-        return;
-      }//*/
     }else if (to==x){
       ++dst;
     }else if (from==x){
       --dst;
     }
     if (sw)return;
-    lg << "goto " << (x+1);
+    lg << "goto " << (x+1) << endl;
     cout << (x+1) << endl;
   }
   bool chkIsReached(){
@@ -70,16 +66,17 @@ struct {
     return false;
   }
 } car;
+
 array<order,9501> odr;
+
 struct {
   vector<int> dst;
   int& front(){ return dst.front(); }
   bool empty(){ return dst.empty(); }
   void push_back( const int& x ){ int t(x); dst.push_back(std::move(t)); }
-  //void push_back( int&& x ){ if (find(all(dst),x)==dst.end())dst.push_back(x); }
   size_t size(){ return dst.size(); }
   void reach( const int& x ){
-    lg << "dst: reached to " << x << "\n";
+    lg << "Dst: reached to " << x << "\n";
     dst.erase(remove_if(all(dst),[&](int y){return x==y;}),dst.end());
   }
 } dst;
@@ -145,28 +142,23 @@ int main(){
 
   // Each Steps
   rep(t,t_max){
-    lg << "##############################\n# TURN [" << t << "]\n";
+    lg << "##############################\n# TURN [" << t << "]\n" << endl;
     getInputOrders(t);
     getInputStacks();
     lg << "Car pos: " << car.from << "," << car.to << "," << car.dst << "\n";
     lg << "Dst: "; rpv(dst.dst){lg << v << " ";} lg << "\n";
     if (car.isOnNode())dst.reach(car.from);
     if (dst.empty()&&car.isOn(0)){
-      lg << "process: dst is empty\ngoto -1\n";
+      lg << "process: dst is empty\ngoto -1\n" << endl;
       puts("-1");
     }else{
       if (dst.empty())dst.push_back(0);
       car.chkIsReached();
       if (!car.isOnNode()){
-        lg << "process: ongoing!\n";
+        lg << "process: ongoing!\n" << endl;
         car.move();
-        /*if ( fx[car.from][dst.front()] < fx[car.to][dst.front()] ){
-          car.move(car.from,edge);
-        }else{
-          car.move(car.to,edge);
-        }//*/
       }else{
-        lg << "process: what is the best node to go to next?\n";
+        lg << "process: what is the best node to go to next?\n" << endl;
         vector<int> tv(2);
         int ans = -1;
         ll tmp = 0;
@@ -188,13 +180,13 @@ int main(){
         /*cout << "d : "//
         rpv(dst.dst){cout << v << " ";}
         cout << endl;//*/
-        lg << "process: destination is " << dst.front() << "\n";
+        lg << "process: destination is " << dst.front() << "\n" << endl;
         car.setTo(dst.front());
         car.move();
       }
     }
-    lg << endl;
     if(getInputResult())break;
+    lg << "Ending turn..." << endl;
   }
 }
 
@@ -211,12 +203,21 @@ ll sumilate( int t, int cur, const vector<int>& d ){
 
 bool getInputResult(){
   string s;cn(s)
-  if (s=="NG")return true;
-  int n;cn(n)rep(i,n){
+  if (s=="NG"){
+    lg << "NG state returns!" << endl;
+    return true;
+  }
+  int n; cin >> n;
+  lg << "input.completetask: " << n << "\n" << endl;
+  if (!n)return false;
+  lg << "  { ";
+  rep(i,n){
     int id;cn(id)
+    lg << id << ", ";
     car.set(odr[id].dst);
     stackingOrders.reach(odr[id].dst);
   }
+  lg << " }" << endl;
   return false;
 }
 
@@ -241,7 +242,7 @@ void getInputOrders( int t ){
   lg << "input.order: " << n << "\n";
   if (!n)return;
   int id,dst; cin >> id >> dst;
-  lg << "  { dst = " << dst-1 << ", t = " << t << ", id = " << id << " }\n"; 
+  lg << "  { dst = " << dst-1 << ", t = " << t << ", id = " << id << " }\n" << endl;; 
   odr[id].dst = dst - 1;
   odr[id].t = t;
   waitingOrders.push_back(id);
