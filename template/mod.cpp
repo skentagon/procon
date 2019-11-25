@@ -9,11 +9,7 @@ namespace skentagon::util {
   template <class T>
   #if __cplusplus > 201709L
   concept bool class_mod = requires( T a, T b ){
-    a+b;
-    a-b;
-    a*b;
-    a/b;
-    a%b;
+    a+b; a-b; a*b; a/b; a%b;
     a>>1;
   }
   #endif
