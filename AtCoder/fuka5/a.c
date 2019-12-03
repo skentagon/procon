@@ -38,22 +38,28 @@ void merge_sorti( int* begin, int size ){
 
 int main(void){
 
-  //入力を受け取る
-  int n;
-  scanf( "%d", &n );
-  int* d = (int*)malloc( sizeof(int)*n );
-  for( int i=0; i<n; ++i ){
-    scanf( "%d", d+i );
+  int d[100];
+
+  while(true){
+
+    //入力を受け取る
+    int n, k;
+    scanf( "%d", &n );
+    scanf( "%d", &k );
+    if ( n==0 && k==0 )break;
+    for( int i=0; i<n; ++i ){
+      scanf( "%d", d+i );
+    }
+
+    //calc
+    int ans = 0;
+    merge_sorti( d, n );
+    for( int i=0; i<k; ++i ){
+      ans += d[i];
+    }
+
+    //出力
+    printf( "%d\n", ans );
+
   }
-
-  //sort
-  merge_sorti( d, n );
-
-  //出力
-  for( int i=0; i<n; ++i ){
-    printf( "%d ", d[i] );
-  }
-  printf("\n");
-
-  free(d);
 }
