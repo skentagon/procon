@@ -1,5 +1,6 @@
-.vscode/
 *.out
-*.gch
-*.exe
 *.o
+*.exe
+*.gch
+*/a
+.vscode/
