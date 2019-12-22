@@ -1,8 +1,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-namespace skentagon::util{}
-using namespace skentagon::util;
 
 typedef long long ll;
 #define rep(i,n) for( ll (i)=0; (i)<(n); ++(i) )
@@ -27,5 +25,37 @@ typedef long long ll;
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
 int main(){
-  //
+  int n,m;cn(n,m)
+  vector<vector<bool>> d(n,vector<bool>(n,true));
+  rep(i,m){
+    int x,y;cn(x,y)
+    d[x-1][y-1]=false;
+  }
+  int t = pow(2,n)-1;
+  int ans = 1;
+  for( int i=t; 2<i; --i ){
+    bool sw = true;
+    for( int x=0; x<n; ++x ){
+      if ( !( (i>>x)&0x01 ) )continue;
+      for( int y=x+1; y<n; ++y ){
+        if ( !( (i>>y)&0x01 ) )continue;
+        if ( d[x][y] ){
+          sw = false;
+          break;
+        }
+      }
+      if (!sw)break;
+    }
+    if(sw){
+      int bits = i;
+      bits = (bits & 0x55555555) + (bits >> 1 & 0x55555555);
+      bits = (bits & 0x33333333) + (bits >> 2 & 0x33333333);
+      bits = (bits & 0x0f0f0f0f) + (bits >> 4 & 0x0f0f0f0f);
+      bits = (bits & 0x00ff00ff) + (bits >> 8 & 0x00ff00ff);
+      bits = (bits & 0x0000ffff) + (bits >>16 & 0x0000ffff);
+      ans = max( ans, bits );
+      //co(i)
+    }
+  }
+  co(ans)
 }

@@ -1,8 +1,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-namespace skentagon::util{}
-using namespace skentagon::util;
 
 typedef long long ll;
 #define rep(i,n) for( ll (i)=0; (i)<(n); ++(i) )
@@ -27,5 +25,6 @@ typedef long long ll;
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
 int main(){
-  //
+  int n;cn(n)
+  co((1+n)*5000)
 }

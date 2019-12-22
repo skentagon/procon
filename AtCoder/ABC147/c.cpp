@@ -1,8 +1,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-namespace skentagon::util{}
-using namespace skentagon::util;
 
 typedef long long ll;
 #define rep(i,n) for( ll (i)=0; (i)<(n); ++(i) )
@@ -27,5 +25,35 @@ typedef long long ll;
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
 int main(){
-  //
+  int n;cn(n)
+  vector<vector<int>> d(n,vector<int>(n,-1));
+  rpv(d){
+    int t;cn(t);
+    rep(i,t){
+      int x,y;cn(x,y)
+      v[x-1]=y;
+    }
+  }
+  int ans = 0;
+  for( int i=1; i<(1<<n); ++i ){
+    bool sw = true;
+    int mn = 0;
+    rep(j,n){
+      if ( (i>>j)&0x01 ){
+        ++mn;
+        rep( k, n ){
+          //if (j==k)continue;
+          if ( (( ((i>>k)&0x01) == 0 )&&( d[j][k]==1 )) || ( ((i>>k)&0x01) )&&( d[j][k]==0 ) ){
+            sw = false;
+            break;
+          }
+        }
+      }
+      if(!sw)break;
+    }
+    if(sw){
+      ans=max(ans,mn);
+    }
+  }
+  co(ans)
 }

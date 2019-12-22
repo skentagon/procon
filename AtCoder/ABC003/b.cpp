@@ -1,8 +1,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-namespace skentagon::util{}
-using namespace skentagon::util;
 
 typedef long long ll;
 #define rep(i,n) for( ll (i)=0; (i)<(n); ++(i) )
@@ -26,6 +24,19 @@ typedef long long ll;
 #define all(x) (x).begin(), (x).end()
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
+bool f( char c ){
+  return ( c=='a'||c=='t'||c=='c'||c=='o'||c=='d'||c=='e'||c=='r' );
+}
+
 int main(){
-  //
+  string s,t;cn(s,t)
+  rep(i,s.size()){
+    if ( (s[i]==t[i])||(s[i]=='@'&&f(t[i]))||(t[i]=='@'&&f(s[i])) ){
+      //
+    }else{
+      puts("You will lose");
+      return 0;
+    }
+  }
+  puts("You can win");
 }

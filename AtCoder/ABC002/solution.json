@@ -1,0 +1,67 @@
+[
+  {
+    "level":100,
+    "title":"A - ",
+    "url":"https://atcoder.jp/contests/abc002/tasks/abc002_1",
+    "tags":[
+      "if"
+    ],
+    "solutions":[
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/7720292",
+        "title":"c++"
+      },
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/8791986",
+        "title":"c"
+      }
+    ]
+  },
+  {
+    "level":200,
+    "title":"B - 罠",
+    "url":"https://atcoder.jp/contests/abc002/tasks/abc002_2",
+    "tags":[
+      "char"
+    ],
+    "solutions":[
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/7720305",
+        "title":"c++"
+      },
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/8792029",
+        "title":"c"
+      }
+    ]
+  },
+  {
+    "level":200,
+    "title":"C - 直訴",
+    "url":"https://atcoder.jp/contests/abc002/tasks/abc002_3",
+    "tags":[
+      "double",
+      "geometry"
+    ],
+    "solutions":[
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/7720337",
+        "title":"c++"
+      }
+    ]
+  },
+  {
+    "level":300,
+    "title":"D - 派閥",
+    "url":"https://atcoder.jp/contests/abc002/tasks/abc002_4",
+    "tags":[
+      "full-search"
+    ],
+    "solutions":[
+      {
+        "url":"https://atcoder.jp/contests/abc002/submissions/8803866",
+        "title":"c++"
+      }
+    ]
+  }
+]

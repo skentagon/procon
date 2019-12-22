@@ -1,8 +1,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-namespace skentagon::util{}
-using namespace skentagon::util;
 
 typedef long long ll;
 #define rep(i,n) for( ll (i)=0; (i)<(n); ++(i) )
@@ -26,6 +24,37 @@ typedef long long ll;
 #define all(x) (x).begin(), (x).end()
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
+const ll mod = 1000000007;
+
+ll fact( ll p ){
+  ll ans = 1;
+  for( ll i=1; i<=p; ++i ){ ans *= i; ans %= mod; }
+  return ans;
+}
+
+ll inv( ll p ){
+  ll a = p, b = mod, u = 1, v = 0;
+  while(b) {
+    ll t = a / b;
+    a -= t * b; std::swap(a,b);
+    u -= t * v; std::swap(u,v);
+  }
+  u %= mod;
+  if(u<0)u+=mod;
+  return u;
+}
+
 int main(){
-  //
+  int r,c,x,y,d,l;cn(r,c,x,y,d,l)
+  ll ans = fact(x*y);
+  ll t = fact(d) * fact(l) & mod;
+  if ( x*y != d+l ){
+    t = t * fact(x*y-d-l) % mod;
+  }
+  co(ans)
+  ans = ans * inv(t) % mod;
+  co(ans)
+  ans = ans * (r-x+1) % mod;
+  ans = ans * (c-y+1) % mod;
+  co(ans)
 }
