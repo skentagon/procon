@@ -1,0 +1,18 @@
+{"compile":[
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/a.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/a.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/a.c"],
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_system.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_system.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_system.c"],
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_strutils.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_strutils.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_strutils.c"],
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_parseutils.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_parseutils.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_parseutils.c"],
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_math.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_math.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_math.c"],
+["/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_algorithm.c", "gcc -c  -w  -I/usr/lib/nim -o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_algorithm.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_algorithm.c"]
+],
+"link":[
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/a.o",
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_system.o",
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_strutils.o",
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_parseutils.o",
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_math.o",
+"/home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_algorithm.o"
+],
+"linkcmd": "gcc   -o /home/skentagon/strage/project/procon/AtCoder/ABC001/a  /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/a.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_system.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_strutils.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_parseutils.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_math.o /home/skentagon/strage/project/procon/AtCoder/ABC001/nimcache/stdlib_algorithm.o  -lm   -ldl"
+}
