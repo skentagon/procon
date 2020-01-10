@@ -24,32 +24,10 @@ typedef long long ll;
 #define all(x) (x).begin(), (x).end()
 #define rgt(x,i) (x).begin(), (x).begin()+(i)
 
-const ll mod = 1000000007;
-
-ll inv( ll p ){
-  ll a = p, b = mod, u = 1, v = 0;
-  while(b) {
-    ll t = a / b;
-    a -= t * b; std::swap(a,b);
-    u -= t * v; std::swap(u,v);
-  }
-  u %= mod;
-  if(u<0)u+=mod;
-  return u;
-}
-
-
 int main(){
-  int n;cn(n)
-  ll ans = 0;
-  vector<ll> d(60,0);
-  rep(i,n){
-    ll t;cn(t)
-    rep(j,d.size()){
-      //co(t&(0x01LL<<j))
-      d[j] = d[j] ^ (t&(1ll<<j));
-    }
+  int r,g,b;cn(r,g,b)
+  int ibgn,jbgn,iend,jend;
+  if ( r/2-100 < 50-g && r/2-100 < -g/2 ){
+
   }
-  rpv(d){ ans = ( ans + v ) % mod; }
-  co(ans)
 }
