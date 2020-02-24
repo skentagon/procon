@@ -6,7 +6,7 @@ const ll MOD = 1e9+7;
 //const ll MOD = 998244353;
 
 namespace skentagon::util {
-  template <class T>
+  template <class T,T N>
   #if __cplusplus > 201709L
   concept bool class_mod = requires( T a, T b ){
     a+b; a-b; a*b; a/b; a%b;
@@ -15,25 +15,31 @@ namespace skentagon::util {
   #endif
   class mod {
     public:
-      mod( const T& t = 0, const T& mod = 1e9+7 ) value(t), mod(mod) : {}
-      mod( mod<T>& rhs ) value(rhs.value) : {}
-      mod( mod<T>&& rhs ) value(std::move(rhs.value)) : {}
-      // Four arithmetic operations
+      mod( const T& t = 0 ) value(t) : {}
+      mod( mod<T,N>& rhs ) value(rhs.value) : {}
+      mod( mod<T,N>&& rhs ) value(rhs.value) : {}
+      // Four arithemtic operations
       template<class TR>
-      mod& operator+=( const TR& rhs ){ value = (value+rhs)%mod; return *this; }
+      mod& operator+=( const TR& rhs ){ value = (value+rhs)%N; return *this; }
       template<class TR>
-      mod& operator+=( const mod<TR>& rhs ){ *this += rhs.value; return *this; }
+      mod operator+=( const mod<TR,N>& rhs ){ *this += rhs.value; return *this; }
       template<class TR>
-      mod& operator+( const TR& rhs ) const { mod<T> t(*this); return (t+=rhs); }
-      mod operator++(int){ mod<T> t(*this); *this+=1; return t; }
+      mod& operator+( const TR& rhs ) const { mod<T,N> t(*this); return t+=rhs; }
+      mod& operator++(int){ mod<T,N> t(*this); *this+=1; return t; }
       mod& operator++(){ *this+=1; return *this; }
       template<class TR>
-      mod& operatpr-=( const TR& rhs ){ value = (value-rhs) % mod; if(value<0)value+=mod; return *this; }
+      mod& operator-=( const TR& rhs ){ value = (value-rhs) % mod; if(value<0)value+=mod; return *this; }
       template<class TR>
-      mod& operator-=( const mod<TR>& rhs ){ *this -= rhs.value; return *this; }
+      mod& operator-=( const mod<TR,N>& rhs ){ value = (value-rhs)%N; if(value<0)value+=N; return *this; }
+      mod operator-( const TR& rhs ) const { mod<T,N> t(*this); return (t-=rhs); }
       template<class TR>
-      mod& operator-( const TR& rhs ) const { mod<T> t(*this); return (t-=rhs); }
-      mod operator--(int){ mod<T> t(*this); *this-=1; return t; }
+      mod& operator--(int){ mod<T> t(*this); *this-=1; return t; }
+      mod& operator--(){ *this-=1; return *this; }
+    private:
+      T value;
+  };
+
+
       template<class TR>
       mod& oerator*=( const TR& rhs ){ value = (value*(rhs%mod))%mod; return *this; }
       template<class TR>
