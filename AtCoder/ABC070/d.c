@@ -618,7 +618,7 @@ int main(){
   scanf("%d",&n);
   treelist_long_long tree;
   treelist_constructor_long_long(&tree,n+1);
-  for( int i=0; i<n; ++i ){
+  for( int i=0; i<n-1; ++i ){
     int a,b;
     long long c;
     scanf("%d%d%lld",&a,&b,&c);
@@ -629,8 +629,8 @@ int main(){
   long long dt[10001] = {-1};
   dt[k] = 0ll;
   list_int st;
-  int t = 0;
-  list_push_back_int(&st,&t);
+  list_constructor_int(&st);
+  list_push_back_int(&st,&k);
   while(!list_empty_int(&st)){
     list_item_int v = *list_back_int(&st);
     list_pop_back_int(&st);
@@ -650,5 +650,6 @@ int main(){
     scanf("%d%d",&x,&y);
     printf("%lld\n",dt[x]+dt[y]);
   }
+  list_deconstructor_int(&st);
   treelist_destructor_long_long(&tree);
 }
