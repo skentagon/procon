@@ -1,95 +1,161 @@
 
-#ifndef C_LIST_ll_GENERATOR_HEADER_INCLUDED
-#define C_LIST_ll_GENERATOR_HEADER_INCLUDED
+
+
+/*
+======================================================
+C template generator
+	URL : https://github.com/skentagon/c-template-generator.git
+======================================================
+*/
+/*
+======================================================
+C template generator
+	class name : 'list'
+	type : 'long long'
+	mnemonic : 'long_long'
+======================================================
+*/
+
+#ifndef C_LIST_long_long_GENERATOR_HEADER_INCLUDED
+#define C_LIST_long_long_GENERATOR_HEADER_INCLUDED
+
+/*
+
+list samples
+  https://atcoder.jp/contests/abc066/submissions/11643502
+
+*/
 
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdarg.h>
 
-
-struct list_item_ll_internal__ {
+struct list_item_long_long_internal__ {
   long long value;
-  struct list_item_ll_internal__* prev;
-  struct list_item_ll_internal__* next;
+  struct list_item_long_long_internal__* prev;
+  struct list_item_long_long_internal__* next;
 };
-typedef struct list_item_ll_internal__ list_item_ll;
+typedef struct list_item_long_long_internal__ list_item_long_long;
 
 typedef struct {
-  list_item_ll* front;
-  list_item_ll* back;
+  list_item_long_long* front;
+  list_item_long_long* back;
   size_t size;
-} list_ll;
+} list_long_long;
 
-typedef struct list_item_ll_internal__* list_item_ptr_ll;
+typedef struct list_item_long_long_internal__* list_item_ptr_long_long;
 
-void swap_list_ll( list_ll* l, list_ll* r ){ list_ll t = *l; *l = *r; *r = t; }
-void swap_list_item_ll( list_item_ll* l, list_item_ll* r ){ list_item_ll t = *l; *l = *r; *r = t; }
 
-list_ll* list_constructor_ll( list_ll* l ){ l->front = l->back = NULL; l->size = 0; return l; };
-void list_deconstructor_ll( list_ll* l );
-bool list_empty_ll( list_ll* l ){ return l->front == NULL; };
-size_t list_size_ll( list_ll* l ){ return l->size; };
-//size_t list_max_size_ll( list_ll* l );
-list_ll* list_resize_ll( list_ll* l, size_t sz );
-list_ll* list_resize_default_ll( list_ll* l, size_t sz, long long* p );
-list_item_ll* list_front_ll( list_ll* l ){ return l->front; };
-list_item_ll* list_back_ll( list_ll* l ){ return l->back; };
-list_item_ll* list_push_front_ll( list_ll* l, long long* p );
-list_item_ll* list_push_back_ll( list_ll* l, long long* p );
-list_item_ll* list_push_front_empty_ll( list_ll* l );
-list_item_ll* list_push_back_empty_ll( list_ll* l );
-list_item_ll* list_insert_ll( list_ll* l, list_item_ll* itm, long long* p );
-list_item_ll* list_insert_va_ll( list_ll* l, list_item_ll* itm, int num, ... );
-list_item_ll* list_insert_multiple_ll( list_ll* l, list_item_ll* itm, int num, long long* p );
-list_item_ll* list_pop_front_ll( list_ll* l );
-list_item_ll* list_pop_back_ll( list_ll* l );
-list_item_ll* list_erase_ll( list_ll* l, list_item_ll* itm );
-list_item_ll* list_erase_range_ll( list_ll* l, list_item_ll* bgn, list_item_ll* end );
-list_item_ll* list_erase_if_ll( list_ll* l, bool(*f)(list_item_ll*,list_item_ll*) );
-list_ll* list_clear_ll( list_ll* l );
-void list_swap_ll( list_ll* l, list_ll* r ){ swap_list_ll(l,r); }
-void list_swap_item_ll( list_item_ll* l, list_item_ll* r ){ swap_list_item_ll(l,r); }
-list_ll* list_splice_ll( list_ll* l, list_item_ll* pos, list_ll* r );
-list_ll* list_splice_item_ll( list_ll* l, list_item_ll* pos, list_ll* r, list_item_ll* itm );
-//list_ll* list_splice_range_ll( list_ll* l, list_item_ll* pos, list_ll* r, list_item_ll* bgn, list_item_ll* end );
-size_t list_remove_ll( list_ll* l, list_item_ll* itm ){ list_erase_ll(l,itm); }
-//size_t list_remove_if_ll( list_ll* l, bool(*f)(list_item_ll*) );
-//list_ll* list_unique_ll( list_ll* l );
-//list_ll* list_unique_if_ll( list_ll* l, bool(*f)(list_item_ll*,list_item_ll*) );
-//list_ll* list_merge_ll( list_ll* l, list_ll* r );
-//list_ll* list_merge_if_ll( list_ll* l, list_ll* r, bool(*f)(list_int_item*,list_int_item*) );
-//list_ll* list_sort_ll( list_ll* l );
-//list_ll* list_sort_if_ll( list_ll* l, bool(*f)(list_item_ll*,list_item_ll*) );
-//list_ll* list_reverse_ll( list_ll* l );
+/*
+======================================================
+C template generator
+	class name : 'list'
+	type : 'list_item_ptr_long_long'
+	mnemonic : 'list_item_ptr_long_long'
+======================================================
+*/
 
-void list_deconstructor_ll( list_ll* l ){ list_clear_ll(l); }
-list_ll* list_resize_ll( list_ll* l, size_t sz ){
-  while( list_size_ll(l) > sz ){ list_erase_ll(l,list_back_ll(l)); }
-  while( list_size_ll(l) < sz ){ list_push_back_empty_ll(l); }
+#ifndef C_UTILITY_list_item_ptr_long_long_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_item_ptr_long_long_GENERATOR_HEADER_INCLUDED
+
+void swap_list_item_ptr_long_long( list_item_ptr_long_long* l, list_item_ptr_long_long* r ){ list_item_ptr_long_long t = *l; *l = *r; *r = t; }
+
+#endif
+/*
+======================================================
+C template generator
+	class name : 'list'
+	type : 'list_long_long'
+	mnemonic : 'list_long_long'
+======================================================
+*/
+
+#ifndef C_UTILITY_list_long_long_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_long_long_GENERATOR_HEADER_INCLUDED
+
+void swap_list_long_long( list_long_long* l, list_long_long* r ){ list_long_long t = *l; *l = *r; *r = t; }
+
+#endif
+/*
+======================================================
+C template generator
+	class name : 'list'
+	type : 'list_item_long_long'
+	mnemonic : 'list_item_long_long'
+======================================================
+*/
+
+#ifndef C_UTILITY_list_item_long_long_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_item_long_long_GENERATOR_HEADER_INCLUDED
+
+void swap_list_item_long_long( list_item_long_long* l, list_item_long_long* r ){ list_item_long_long t = *l; *l = *r; *r = t; }
+
+#endif
+void list_constructor_long_long( list_long_long* l ){ l->front = l->back = NULL; l->size = 0; };
+void list_deconstructor_long_long( list_long_long* l );
+bool list_empty_long_long( list_long_long* l ){ return l->front == NULL; };
+size_t list_size_long_long( list_long_long* l ){ return l->size; };
+//size_t list_max_size_long_long( list_long_long* l );
+list_long_long* list_resize_long_long( list_long_long* l, size_t sz );
+list_long_long* list_resize_default_long_long( list_long_long* l, size_t sz, long long* p );
+list_item_long_long* list_front_long_long( list_long_long* l ){ return l->front; };
+list_item_long_long* list_back_long_long( list_long_long* l ){ return l->back; };
+list_item_long_long* list_push_front_long_long( list_long_long* l, long long* p );
+list_item_long_long* list_push_back_long_long( list_long_long* l, long long* p );
+list_item_long_long* list_push_front_empty_long_long( list_long_long* l );
+list_item_long_long* list_push_back_empty_long_long( list_long_long* l );
+list_item_long_long* list_insert_long_long( list_long_long* l, list_item_long_long* itm, long long* p );
+list_item_long_long* list_insert_va_long_long( list_long_long* l, list_item_long_long* itm, int num, ... );
+list_item_long_long* list_insert_multiple_long_long( list_long_long* l, list_item_long_long* itm, int num, long long* p );
+list_item_long_long* list_pop_front_long_long( list_long_long* l );
+list_item_long_long* list_pop_back_long_long( list_long_long* l );
+list_item_long_long* list_erase_long_long( list_long_long* l, list_item_long_long* itm );
+list_item_long_long* list_erase_range_long_long( list_long_long* l, list_item_long_long* bgn, list_item_long_long* end );
+list_item_long_long* list_erase_if_long_long( list_long_long* l, bool(*f)(list_item_long_long*,list_item_long_long*) );
+list_long_long* list_clear_long_long( list_long_long* l );
+void list_swap_long_long( list_long_long* l, list_long_long* r ){ swap_list_long_long(l,r); }
+void list_swap_item_long_long( list_item_long_long* l, list_item_long_long* r ){ swap_list_item_long_long(l,r); }
+list_long_long* list_splice_long_long( list_long_long* l, list_item_long_long* pos, list_long_long* r );
+list_long_long* list_splice_item_long_long( list_long_long* l, list_item_long_long* pos, list_long_long* r, list_item_long_long* itm );
+//list_long_long* list_splice_range_long_long( list_long_long* l, list_item_long_long* pos, list_long_long* r, list_item_long_long* bgn, list_item_long_long* end );
+size_t list_remove_long_long( list_long_long* l, list_item_long_long* itm ){ list_erase_long_long(l,itm); }
+//size_t list_remove_if_long_long( list_long_long* l, bool(*f)(list_item_long_long*) );
+//list_long_long* list_unique_long_long( list_long_long* l );
+//list_long_long* list_unique_if_long_long( list_long_long* l, bool(*f)(list_item_long_long*,list_item_long_long*) );
+//list_long_long* list_merge_long_long( list_long_long* l, list_long_long* r );
+//list_long_long* list_merge_if_long_long( list_long_long* l, list_long_long* r, bool(*f)(list_int_item*,list_int_item*) );
+//list_long_long* list_sort_long_long( list_long_long* l );
+//list_long_long* list_sort_if_long_long( list_long_long* l, bool(*f)(list_item_long_long*,list_item_long_long*) );
+//list_long_long* list_reverse_long_long( list_long_long* l );
+
+void list_deconstructor_long_long( list_long_long* l ){ list_clear_long_long(l); }
+list_long_long* list_resize_long_long( list_long_long* l, size_t sz ){
+  while( list_size_long_long(l) > sz ){ list_erase_long_long(l,list_back_long_long(l)); }
+  while( list_size_long_long(l) < sz ){ list_push_back_empty_long_long(l); }
   return l;
 };
-list_ll* list_resize_default_ll( list_ll* l, size_t sz, long long* p ){
-  while( list_size_ll(l) > sz ){ list_erase_ll(l,list_back_ll(l)); }
-  while( list_size_ll(l) < sz ){ list_push_back_ll(l,p); }
+list_long_long* list_resize_default_long_long( list_long_long* l, size_t sz, long long* p ){
+  while( list_size_long_long(l) > sz ){ list_erase_long_long(l,list_back_long_long(l)); }
+  while( list_size_long_long(l) < sz ){ list_push_back_long_long(l,p); }
   return l;
 };
-list_item_ll* list_push_front_ll( list_ll* l, long long* p ){
-  list_item_ll* t = list_push_front_empty_ll(l);
+list_item_long_long* list_push_front_long_long( list_long_long* l, long long* p ){
+  list_item_long_long* t = list_push_front_empty_long_long(l);
   if (!t){ return NULL; }
   t->value = *p;
   return t;
 };
-list_item_ll* list_push_back_ll( list_ll* l, long long* p ){
-  list_item_ll* t = list_push_back_empty_ll(l);
+list_item_long_long* list_push_back_long_long( list_long_long* l, long long* p ){
+  list_item_long_long* t = list_push_back_empty_long_long(l);
   if (!t){ return NULL; }
   t->value = *p;
   return t;
 };
-list_item_ll* list_push_front_empty_ll( list_ll* l ){
-  list_item_ll* t = (list_item_ll*)malloc(sizeof(list_item_ll));
+list_item_long_long* list_push_front_empty_long_long( list_long_long* l ){
+  list_item_long_long* t = (list_item_long_long*)malloc(sizeof(list_item_long_long));
   if (!t)return NULL;
-  if (list_empty_ll(l)){
+  if (list_empty_long_long(l)){
     l->front = l->back = t;
     l->front->prev = l->front->prev = NULL;
   } else {
@@ -100,10 +166,10 @@ list_item_ll* list_push_front_empty_ll( list_ll* l ){
   }
   return t;
 };
-list_item_ll* list_push_back_empty_ll( list_ll* l ){
-  list_item_ll* t = (list_item_ll*)malloc(sizeof(list_item_ll));
+list_item_long_long* list_push_back_empty_long_long( list_long_long* l ){
+  list_item_long_long* t = (list_item_long_long*)malloc(sizeof(list_item_long_long));
   if (!t)return NULL;
-  if (list_empty_ll(l)){
+  if (list_empty_long_long(l)){
     l->front = l->back = t;
     l->front->prev = l->front->prev = NULL;
   } else {
@@ -114,8 +180,8 @@ list_item_ll* list_push_back_empty_ll( list_ll* l ){
   }
   return t;
 };
-list_item_ll* list_insert_ll( list_ll* l, list_item_ll* itm, long long* p ){
-  list_item_ll* t = (list_item_ll*)malloc(sizeof(list_item_ll));
+list_item_long_long* list_insert_long_long( list_long_long* l, list_item_long_long* itm, long long* p ){
+  list_item_long_long* t = (list_item_long_long*)malloc(sizeof(list_item_long_long));
   if ( t == NULL )return NULL;
   if ( l->back == itm )l->back = t;
   t->next = itm->next;
@@ -124,22 +190,22 @@ list_item_ll* list_insert_ll( list_ll* l, list_item_ll* itm, long long* p ){
   if ( t->next != NULL )t->next->prev = t;
   return t;
 };
-list_item_ll* list_insert_va_ll( list_ll* l, list_item_ll* itm, int num, ... ){
+list_item_long_long* list_insert_va_long_long( list_long_long* l, list_item_long_long* itm, int num, ... ){
   va_list args; va_start( args, num );
-  list_item_ll* itr = itm;
-  for( int i=0; i<num; ++i ) itr = list_insert_ll( l, itr, va_arg(args,long long*) );
+  list_item_long_long* itr = itm;
+  for( int i=0; i<num; ++i ) itr = list_insert_long_long( l, itr, va_arg(args,long long*) );
   va_end(args);
   return itr;
 };
-list_item_ll* list_insert_multiple_ll( list_ll* l, list_item_ll* itm, int num, long long* p ){
-  list_item_ll* itr = itm;
-  for( int i=0; i<num; ++i ) itr = list_insert_ll( l, itr, p );
+list_item_long_long* list_insert_multiple_long_long( list_long_long* l, list_item_long_long* itm, int num, long long* p ){
+  list_item_long_long* itr = itm;
+  for( int i=0; i<num; ++i ) itr = list_insert_long_long( l, itr, p );
   return itr;
 }
-list_item_ll* list_pop_front_ll( list_ll* l ){ list_erase_ll(l,l->front); }
-list_item_ll* list_pop_back_ll( list_ll* l ){ list_erase_ll(l,l->back); }
-list_item_ll* list_erase_ll( list_ll* l, list_item_ll* itm ){
-  list_item_ll* t;
+list_item_long_long* list_pop_front_long_long( list_long_long* l ){ list_erase_long_long(l,l->front); }
+list_item_long_long* list_pop_back_long_long( list_long_long* l ){ list_erase_long_long(l,l->back); }
+list_item_long_long* list_erase_long_long( list_long_long* l, list_item_long_long* itm ){
+  list_item_long_long* t;
   if ( itm->prev ){
     if ( itm->next ){
       itm->prev->next = itm->next;
@@ -159,8 +225,8 @@ list_item_ll* list_erase_ll( list_ll* l, list_item_ll* itm ){
   free(itm); --l->size;
   return t;
 };
-list_item_ll* list_erase_range_ll( list_ll* l, list_item_ll* bgn, list_item_ll* end ){
-  list_item_ll* t = bgn;
+list_item_long_long* list_erase_range_long_long( list_long_long* l, list_item_long_long* bgn, list_item_long_long* end ){
+  list_item_long_long* t = bgn;
   end->prev = bgn->prev;
   if ( !bgn->prev ){ l->front = end; }
   while( t != end ){
@@ -170,14 +236,16 @@ list_item_ll* list_erase_range_ll( list_ll* l, list_item_ll* bgn, list_item_ll* 
   }
   return end;
 };
-list_ll* list_clear_ll( list_ll* l ){
-  list_item_ll* t = l->front;
+list_long_long* list_clear_long_long( list_long_long* l ){
+  list_item_long_long* t = l->front;
+  if (!t)return l;
   while(t->next){t=t->next;free(t->prev);}
   free(l->back);
   l->front = l->back = NULL;
   l->size = 0;
+  return l;
 };
-list_ll* list_splice_ll( list_ll* l, list_item_ll* pos, list_ll* r ){
+list_long_long* list_splice_long_long( list_long_long* l, list_item_long_long* pos, list_long_long* r ){
   if (r->size){
     l->size +=  r->size;
     r->front->prev = pos;
@@ -198,9 +266,9 @@ list_ll* list_splice_ll( list_ll* l, list_item_ll* pos, list_ll* r ){
 int main(){
 
   // listの宣言
-  list_ll l;
+  list_long_long l;
   // listの初期化
-  list_constructor_ll(&l);
+  list_constructor_long_long(&l);
 
   int n;
   scanf("%d\n",&n);
@@ -208,24 +276,23 @@ int main(){
     long long a;
     scanf("%lld",&a);
     if (i&0x01){
-      list_push_back_ll(&l,&a);
+      list_push_back_long_long(&l,&a);
     } else {
-      list_push_front_ll(&l,&a);
+      list_push_front_long_long(&l,&a);
     }
   }
-
-  puts("hoge");
 
   if (n&0x01){
-    while(!list_empty_ll(&l)){
-      printf("%lld ",list_front_ll(&l)->value);
-      list_pop_front_ll(&l);
+    while(!list_empty_long_long(&l)){
+      printf("%lld ",list_front_long_long(&l)->value);
+      list_pop_front_long_long(&l);
     }
   }else{
-    while(!list_empty_ll(&l)){
-      printf("%lld ",list_back_ll(&l)->value);
-      list_pop_back_ll(&l);
+    while(!list_empty_long_long(&l)){
+      printf("%lld ",list_back_long_long(&l)->value);
+      list_pop_back_long_long(&l);
     }
   }
-  list_deconstructor_ll(&l);
+  puts("");
+  list_deconstructor_long_long(&l);
 }

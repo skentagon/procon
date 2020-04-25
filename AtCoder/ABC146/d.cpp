@@ -15,7 +15,7 @@ int main(){
   vector<pair<int,int>> d(n-1);
   rep(i,n-1){
     int t1,t2;cin>>t1>>t2;
-    d[i]=pair<int,int>{t1-1,t2-1};
+    d[i]=make_pair(t1-1,t2-1);
     ++ans[t1-1]; ++ans[t2-1];
   }
   int t = *max_element(all(ans));
