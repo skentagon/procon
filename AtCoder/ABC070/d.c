@@ -313,6 +313,7 @@ void treelist_constructor_long_long( treelist_long_long* l, size_t n ){
 void treelist_destructor_long_long( treelist_long_long* l );
 void treelist_addEdge_long_long( treelist_long_long* l, size_t a, size_t b, long long* t );
 long long* treelist_edge_long_long( treelist_long_long* l, size_t a, size_t b );
+list_treelist_item_long_long* treelist_edges_long_long( treelist_long_long* l, size_t a ){ return &l->nodes[a]; }
 
 void treelist_destructor_long_long( treelist_long_long* l ){
   for( size_t i=0; i<l->num; ++i ){
@@ -337,6 +338,7 @@ long long* treelist_edge_long_long( treelist_long_long* l, size_t a, size_t b ){
   return NULL;
 }
 
+
 #endif
 
 
@@ -351,13 +353,13 @@ C template generator
 ======================================================
 C template generator
 	class name : 'list'
-	type : 'int'
-	mnemonic : 'int'
+	type : 'size_t'
+	mnemonic : 'size_t'
 ======================================================
 */
 
-#ifndef C_LIST_int_GENERATOR_HEADER_INCLUDED
-#define C_LIST_int_GENERATOR_HEADER_INCLUDED
+#ifndef C_LIST_size_t_GENERATOR_HEADER_INCLUDED
+#define C_LIST_size_t_GENERATOR_HEADER_INCLUDED
 
 /*
 
@@ -371,140 +373,140 @@ list samples
 #include <stdbool.h>
 #include <stdarg.h>
 
-struct list_item_int_internal__ {
-  int value;
-  struct list_item_int_internal__* prev;
-  struct list_item_int_internal__* next;
+struct list_item_size_t_internal__ {
+  size_t value;
+  struct list_item_size_t_internal__* prev;
+  struct list_item_size_t_internal__* next;
 };
-typedef struct list_item_int_internal__ list_item_int;
+typedef struct list_item_size_t_internal__ list_item_size_t;
 
 typedef struct {
-  list_item_int* front;
-  list_item_int* back;
+  list_item_size_t* front;
+  list_item_size_t* back;
   size_t size;
-} list_int;
+} list_size_t;
 
-typedef struct list_item_int_internal__* list_item_ptr_int;
+typedef struct list_item_size_t_internal__* list_item_ptr_size_t;
 
 
 /*
 ======================================================
 C template generator
 	class name : 'list'
-	type : 'list_item_ptr_int'
-	mnemonic : 'list_item_ptr_int'
+	type : 'list_item_ptr_size_t'
+	mnemonic : 'list_item_ptr_size_t'
 ======================================================
 */
 
-#ifndef C_UTILITY_list_item_ptr_int_GENERATOR_HEADER_INCLUDED
-#define C_UTILITY_list_item_ptr_int_GENERATOR_HEADER_INCLUDED
+#ifndef C_UTILITY_list_item_ptr_size_t_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_item_ptr_size_t_GENERATOR_HEADER_INCLUDED
 
-void swap_list_item_ptr_int( list_item_ptr_int* l, list_item_ptr_int* r ){ list_item_ptr_int t = *l; *l = *r; *r = t; }
+void swap_list_item_ptr_size_t( list_item_ptr_size_t* l, list_item_ptr_size_t* r ){ list_item_ptr_size_t t = *l; *l = *r; *r = t; }
 
 #endif
 /*
 ======================================================
 C template generator
 	class name : 'list'
-	type : 'list_int'
-	mnemonic : 'list_int'
+	type : 'list_size_t'
+	mnemonic : 'list_size_t'
 ======================================================
 */
 
-#ifndef C_UTILITY_list_int_GENERATOR_HEADER_INCLUDED
-#define C_UTILITY_list_int_GENERATOR_HEADER_INCLUDED
+#ifndef C_UTILITY_list_size_t_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_size_t_GENERATOR_HEADER_INCLUDED
 
-void swap_list_int( list_int* l, list_int* r ){ list_int t = *l; *l = *r; *r = t; }
+void swap_list_size_t( list_size_t* l, list_size_t* r ){ list_size_t t = *l; *l = *r; *r = t; }
 
 #endif
 /*
 ======================================================
 C template generator
 	class name : 'list'
-	type : 'list_item_int'
-	mnemonic : 'list_item_int'
+	type : 'list_item_size_t'
+	mnemonic : 'list_item_size_t'
 ======================================================
 */
 
-#ifndef C_UTILITY_list_item_int_GENERATOR_HEADER_INCLUDED
-#define C_UTILITY_list_item_int_GENERATOR_HEADER_INCLUDED
+#ifndef C_UTILITY_list_item_size_t_GENERATOR_HEADER_INCLUDED
+#define C_UTILITY_list_item_size_t_GENERATOR_HEADER_INCLUDED
 
-void swap_list_item_int( list_item_int* l, list_item_int* r ){ list_item_int t = *l; *l = *r; *r = t; }
+void swap_list_item_size_t( list_item_size_t* l, list_item_size_t* r ){ list_item_size_t t = *l; *l = *r; *r = t; }
 
 #endif
-void list_constructor_int( list_int* l ){ l->front = l->back = NULL; l->size = 0; };
-//void list_constructor_n_int( list_int* l, size_t n, int* t = NULL );
-void list_constructor_range_int( list_int* l, list_item_int* begin, list_item_int* end );
-void list_deconstructor_int( list_int* l );
-bool list_empty_int( list_int* l ){ return l->front == NULL; };
-size_t list_size_int( list_int* l ){ return l->size; };
-//size_t list_max_size_int( list_int* l );
-list_int* list_resize_int( list_int* l, size_t sz );
-list_int* list_resize_default_int( list_int* l, size_t sz, int* p );
-list_item_int* list_front_int( list_int* l ){ return l->front; };
-list_item_int* list_back_int( list_int* l ){ return l->back; };
-list_item_int* list_push_front_int( list_int* l, int* p );
-list_item_int* list_push_back_int( list_int* l, int* p );
-list_item_int* list_push_front_empty_int( list_int* l );
-list_item_int* list_push_back_empty_int( list_int* l );
-list_item_int* list_insert_int( list_int* l, list_item_int* itm, int* p );
-list_item_int* list_insert_va_int( list_int* l, list_item_int* itm, int num, ... );
-list_item_int* list_insert_multiple_int( list_int* l, list_item_int* itm, int num, int* p );
-list_item_int* list_pop_front_int( list_int* l );
-list_item_int* list_pop_back_int( list_int* l );
-list_item_int* list_erase_int( list_int* l, list_item_int* itm );
-list_item_int* list_erase_range_int( list_int* l, list_item_int* bgn, list_item_int* end );
-list_item_int* list_erase_if_int( list_int* l, bool(*f)(list_item_int*,list_item_int*) );
-list_int* list_clear_int( list_int* l );
-void list_swap_int( list_int* l, list_int* r ){ swap_list_int(l,r); }
-void list_swap_item_int( list_item_int* l, list_item_int* r ){ swap_list_item_int(l,r); }
-list_int* list_splice_int( list_int* l, list_item_int* pos, list_int* r );
-list_int* list_splice_item_int( list_int* l, list_item_int* pos, list_int* r, list_item_int* itm );
-//list_int* list_splice_range_int( list_int* l, list_item_int* pos, list_int* r, list_item_int* bgn, list_item_int* end );
-size_t list_remove_int( list_int* l, list_item_int* itm ){ list_erase_int(l,itm); }
-//size_t list_remove_if_int( list_int* l, bool(*f)(list_item_int*) );
-//list_int* list_unique_int( list_int* l );
-//list_int* list_unique_if_int( list_int* l, bool(*f)(list_item_int*,list_item_int*) );
-list_int* list_merge_int( list_int* l, list_int* r );
-//list_int* list_merge_if_int( list_int* l, list_int* r, bool(*f)(list_int_item*,list_int_item*) );
-list_int* list_sort_int( list_int* l );
-//list_int* list_sort_if_int( list_int* l, bool(*f)(list_item_int*,list_item_int*) );
-//list_int* list_reverse_int( list_int* l );
+void list_constructor_size_t( list_size_t* l ){ l->front = l->back = NULL; l->size = 0; };
+//void list_constructor_n_size_t( list_size_t* l, size_t n, size_t* t = NULL );
+void list_constructor_range_size_t( list_size_t* l, list_item_size_t* begin, list_item_size_t* end );
+void list_deconstructor_size_t( list_size_t* l );
+bool list_empty_size_t( list_size_t* l ){ return l->front == NULL; };
+size_t list_size_size_t( list_size_t* l ){ return l->size; };
+//size_t list_max_size_size_t( list_size_t* l );
+list_size_t* list_resize_size_t( list_size_t* l, size_t sz );
+list_size_t* list_resize_default_size_t( list_size_t* l, size_t sz, size_t* p );
+list_item_size_t* list_front_size_t( list_size_t* l ){ return l->front; };
+list_item_size_t* list_back_size_t( list_size_t* l ){ return l->back; };
+list_item_size_t* list_push_front_size_t( list_size_t* l, size_t* p );
+list_item_size_t* list_push_back_size_t( list_size_t* l, size_t* p );
+list_item_size_t* list_push_front_empty_size_t( list_size_t* l );
+list_item_size_t* list_push_back_empty_size_t( list_size_t* l );
+list_item_size_t* list_insert_size_t( list_size_t* l, list_item_size_t* itm, size_t* p );
+list_item_size_t* list_insert_va_size_t( list_size_t* l, list_item_size_t* itm, int num, ... );
+list_item_size_t* list_insert_multiple_size_t( list_size_t* l, list_item_size_t* itm, int num, size_t* p );
+list_item_size_t* list_pop_front_size_t( list_size_t* l );
+list_item_size_t* list_pop_back_size_t( list_size_t* l );
+list_item_size_t* list_erase_size_t( list_size_t* l, list_item_size_t* itm );
+list_item_size_t* list_erase_range_size_t( list_size_t* l, list_item_size_t* bgn, list_item_size_t* end );
+list_item_size_t* list_erase_if_size_t( list_size_t* l, bool(*f)(list_item_size_t*,list_item_size_t*) );
+list_size_t* list_clear_size_t( list_size_t* l );
+void list_swap_size_t( list_size_t* l, list_size_t* r ){ swap_list_size_t(l,r); }
+void list_swap_item_size_t( list_item_size_t* l, list_item_size_t* r ){ swap_list_item_size_t(l,r); }
+list_size_t* list_splice_size_t( list_size_t* l, list_item_size_t* pos, list_size_t* r );
+list_size_t* list_splice_item_size_t( list_size_t* l, list_item_size_t* pos, list_size_t* r, list_item_size_t* itm );
+//list_size_t* list_splice_range_size_t( list_size_t* l, list_item_size_t* pos, list_size_t* r, list_item_size_t* bgn, list_item_size_t* end );
+size_t list_remove_size_t( list_size_t* l, list_item_size_t* itm ){ list_erase_size_t(l,itm); }
+//size_t list_remove_if_size_t( list_size_t* l, bool(*f)(list_item_size_t*) );
+//list_size_t* list_unique_size_t( list_size_t* l );
+//list_size_t* list_unique_if_size_t( list_size_t* l, bool(*f)(list_item_size_t*,list_item_size_t*) );
+list_size_t* list_merge_size_t( list_size_t* l, list_size_t* r );
+//list_size_t* list_merge_if_size_t( list_size_t* l, list_size_t* r, bool(*f)(list_int_item*,list_int_item*) );
+list_size_t* list_sort_size_t( list_size_t* l );
+//list_size_t* list_sort_if_size_t( list_size_t* l, bool(*f)(list_item_size_t*,list_item_size_t*) );
+//list_size_t* list_reverse_size_t( list_size_t* l );
 
-void list_constructor_range_int( list_int* l, list_item_int* begin, list_item_int* end ){
-  list_constructor_int(l);
-  for( list_item_int* t=begin; t!=end; t=t->next ){
-    list_push_back_int(l,&t->value);
+void list_constructor_range_size_t( list_size_t* l, list_item_size_t* begin, list_item_size_t* end ){
+  list_constructor_size_t(l);
+  for( list_item_size_t* t=begin; t!=end; t=t->next ){
+    list_push_back_size_t(l,&t->value);
   }
 }
-void list_destructor_int( list_int* l ){ list_clear_int(l); }
-void list_deconstructor_int( list_int* l ){ list_clear_int(l); }
-list_int* list_resize_int( list_int* l, size_t sz ){
-  while( list_size_int(l) > sz ){ list_erase_int(l,list_back_int(l)); }
-  while( list_size_int(l) < sz ){ list_push_back_empty_int(l); }
+void list_destructor_size_t( list_size_t* l ){ list_clear_size_t(l); }
+void list_deconstructor_size_t( list_size_t* l ){ list_clear_size_t(l); }
+list_size_t* list_resize_size_t( list_size_t* l, size_t sz ){
+  while( list_size_size_t(l) > sz ){ list_erase_size_t(l,list_back_size_t(l)); }
+  while( list_size_size_t(l) < sz ){ list_push_back_empty_size_t(l); }
   return l;
 };
-list_int* list_resize_default_int( list_int* l, size_t sz, int* p ){
-  while( list_size_int(l) > sz ){ list_erase_int(l,list_back_int(l)); }
-  while( list_size_int(l) < sz ){ list_push_back_int(l,p); }
+list_size_t* list_resize_default_size_t( list_size_t* l, size_t sz, size_t* p ){
+  while( list_size_size_t(l) > sz ){ list_erase_size_t(l,list_back_size_t(l)); }
+  while( list_size_size_t(l) < sz ){ list_push_back_size_t(l,p); }
   return l;
 };
-list_item_int* list_push_front_int( list_int* l, int* p ){
-  list_item_int* t = list_push_front_empty_int(l);
+list_item_size_t* list_push_front_size_t( list_size_t* l, size_t* p ){
+  list_item_size_t* t = list_push_front_empty_size_t(l);
   if (!t){ return NULL; }
   t->value = *p;
   return t;
 };
-list_item_int* list_push_back_int( list_int* l, int* p ){
-  list_item_int* t = list_push_back_empty_int(l);
+list_item_size_t* list_push_back_size_t( list_size_t* l, size_t* p ){
+  list_item_size_t* t = list_push_back_empty_size_t(l);
   if (!t){ return NULL; }
   t->value = *p;
   return t;
 };
-list_item_int* list_push_front_empty_int( list_int* l ){
-  list_item_int* t = (list_item_int*)malloc(sizeof(list_item_int));
+list_item_size_t* list_push_front_empty_size_t( list_size_t* l ){
+  list_item_size_t* t = (list_item_size_t*)malloc(sizeof(list_item_size_t));
   if (!t)return NULL;
-  if (list_empty_int(l)){
+  if (list_empty_size_t(l)){
     l->front = l->back = t;
     l->front->prev = l->front->prev = NULL;
   } else {
@@ -513,12 +515,13 @@ list_item_int* list_push_front_empty_int( list_int* l ){
     l->front = l->front->prev;
     l->front->prev = NULL;
   }
+  ++l->size;
   return t;
 };
-list_item_int* list_push_back_empty_int( list_int* l ){
-  list_item_int* t = (list_item_int*)malloc(sizeof(list_item_int));
+list_item_size_t* list_push_back_empty_size_t( list_size_t* l ){
+  list_item_size_t* t = (list_item_size_t*)malloc(sizeof(list_item_size_t));
   if (!t)return NULL;
-  if (list_empty_int(l)){
+  if (list_empty_size_t(l)){
     l->front = l->back = t;
     l->front->prev = l->front->prev = NULL;
   } else {
@@ -527,10 +530,11 @@ list_item_int* list_push_back_empty_int( list_int* l ){
     l->back = l->back->next;
     l->back->next = NULL;
   }
+  ++l->size;
   return t;
 };
-list_item_int* list_insert_int( list_int* l, list_item_int* itm, int* p ){
-  list_item_int* t = (list_item_int*)malloc(sizeof(list_item_int));
+list_item_size_t* list_insert_size_t( list_size_t* l, list_item_size_t* itm, size_t* p ){
+  list_item_size_t* t = (list_item_size_t*)malloc(sizeof(list_item_size_t));
   if ( t == NULL )return NULL;
   if ( l->back == itm )l->back = t;
   t->next = itm->next;
@@ -539,25 +543,26 @@ list_item_int* list_insert_int( list_int* l, list_item_int* itm, int* p ){
   if ( t->next != NULL )t->next->prev = t;
   return t;
 };
-list_item_int* list_insert_va_int( list_int* l, list_item_int* itm, int num, ... ){
+list_item_size_t* list_insert_va_size_t( list_size_t* l, list_item_size_t* itm, int num, ... ){
   va_list args; va_start( args, num );
-  list_item_int* itr = itm;
-  for( int i=0; i<num; ++i ) itr = list_insert_int( l, itr, va_arg(args,int*) );
+  list_item_size_t* itr = itm;
+  for( int i=0; i<num; ++i ) itr = list_insert_size_t( l, itr, va_arg(args,size_t*) );
   va_end(args);
   return itr;
 };
-list_item_int* list_insert_multiple_int( list_int* l, list_item_int* itm, int num, int* p ){
-  list_item_int* itr = itm;
-  for( int i=0; i<num; ++i ) itr = list_insert_int( l, itr, p );
+list_item_size_t* list_insert_multiple_size_t( list_size_t* l, list_item_size_t* itm, int num, size_t* p ){
+  list_item_size_t* itr = itm;
+  for( int i=0; i<num; ++i ) itr = list_insert_size_t( l, itr, p );
   return itr;
 }
-list_item_int* list_pop_front_int( list_int* l ){ list_erase_int(l,l->front); }
-list_item_int* list_pop_back_int( list_int* l ){ list_erase_int(l,l->back); }
-list_item_int* list_erase_int( list_int* l, list_item_int* itm ){
-  list_item_int* t;
+list_item_size_t* list_pop_front_size_t( list_size_t* l ){ list_erase_size_t(l,l->front); }
+list_item_size_t* list_pop_back_size_t( list_size_t* l ){ list_erase_size_t(l,l->back); }
+list_item_size_t* list_erase_size_t( list_size_t* l, list_item_size_t* itm ){
+  list_item_size_t* t;
   if ( itm->prev ){
     if ( itm->next ){
       itm->prev->next = itm->next;
+      itm->next->prev = itm->prev;
       t = itm->next;
     } else {
       itm->prev->next = NULL;
@@ -574,8 +579,8 @@ list_item_int* list_erase_int( list_int* l, list_item_int* itm ){
   free(itm); --l->size;
   return t;
 };
-list_item_int* list_erase_range_int( list_int* l, list_item_int* bgn, list_item_int* end ){
-  list_item_int* t = bgn;
+list_item_size_t* list_erase_range_size_t( list_size_t* l, list_item_size_t* bgn, list_item_size_t* end ){
+  list_item_size_t* t = bgn;
   end->prev = bgn->prev;
   if ( !bgn->prev ){ l->front = end; }
   while( t != end ){
@@ -585,8 +590,8 @@ list_item_int* list_erase_range_int( list_int* l, list_item_int* bgn, list_item_
   }
   return end;
 };
-list_int* list_clear_int( list_int* l ){
-  list_item_int* t = l->front;
+list_size_t* list_clear_size_t( list_size_t* l ){
+  list_item_size_t* t = l->front;
   if (!t)return l;
   while(t->next){t=t->next;free(t->prev);}
   free(l->back);
@@ -594,7 +599,7 @@ list_int* list_clear_int( list_int* l ){
   l->size = 0;
   return l;
 };
-list_int* list_splice_int( list_int* l, list_item_int* pos, list_int* r ){
+list_size_t* list_splice_size_t( list_size_t* l, list_item_size_t* pos, list_size_t* r ){
   if (r->size){
     l->size +=  r->size;
     r->front->prev = pos;
@@ -606,50 +611,56 @@ list_int* list_splice_int( list_int* l, list_item_int* pos, list_int* r ){
   }
   return l;
 };
-list_int* list_sort_int( list_int* l ){}
-list_int* list_merge_int( list_int* l, list_int* r ){}
+list_size_t* list_sort_size_t( list_size_t* l ){}
+list_size_t* list_merge_size_t( list_size_t* l, list_size_t* r ){}
 
 #endif
 
 #include <stdio.h>
 
+long long dist[100001];
+
 int main(){
-  int n;
-  scanf("%d",&n);
+  long long n;
+  scanf("%lld",&n);
   treelist_long_long tree;
   treelist_constructor_long_long(&tree,n+1);
   for( int i=0; i<n-1; ++i ){
     int a,b;
     long long c;
-    scanf("%d%d%lld",&a,&b,&c);
+    scanf("%d %d %lld",&a,&b,&c);
     treelist_addEdge_long_long(&tree,a,b,&c);
+    treelist_addEdge_long_long(&tree,b,a,&c);
   }
-  int q,k;
-  scanf("%d%d",&q,&k);
-  long long dt[10001] = {-1};
-  dt[k] = 0ll;
-  list_int st;
-  list_constructor_int(&st);
-  list_push_back_int(&st,&k);
-  while(!list_empty_int(&st)){
-    list_item_int v = *list_back_int(&st);
-    list_pop_back_int(&st);
-    for(
-      list_item_treelist_item_long_long* w = list_front_treelist_item_long_long(&tree.nodes[v.value]);
-      w != list_back_treelist_item_long_long(&tree.nodes[v.value]);
-      w = w->next
-    ){
-      if ( dt[w->value.node] < 0 ){
-        dt[w->value.node] = w->value.value + dt[v.value];
-        list_push_back_int(&st,&w->value.node);
+  size_t q,k;
+  scanf("%ld %ld",&q,&k);
+  list_size_t std;
+  list_size_t st;
+  list_constructor_size_t(&std);
+  list_constructor_size_t(&st);
+  list_push_back_size_t(&st,&k);
+  size_t t = 0;
+  list_push_back_size_t(&std,&t);
+  for( int i=0; i<100001; ++i ){ dist[i] = -1; }
+  dist[k] = 0;
+  while(!list_empty_size_t(&st)){
+    size_t v = list_back_size_t(&st)->value;
+    size_t d = list_back_size_t(&std)->value;
+    list_pop_back_size_t(&st);
+    list_pop_back_size_t(&std);
+    list_item_treelist_item_long_long* itr = treelist_edges_long_long(&tree,v)->front;
+    while( itr != NULL ){
+      if ( dist[itr->value.node] < 0 ){
+        dist[itr->value.node] = *treelist_edge_long_long(&tree,itr->value.node,v) + d;
+        list_push_back_size_t(&st,&(itr->value.node));
+        list_push_back_size_t(&std,&dist[itr->value.node]);
       }
+      itr = itr->next;
     }
   }
   for( int i=0; i<q; ++i ){
     int x,y;
-    scanf("%d%d",&x,&y);
-    printf("%lld\n",dt[x]+dt[y]);
+    scanf("%d %d",&x,&y);
+    printf("%lld\n",dist[x]+dist[y]);
   }
-  list_deconstructor_int(&st);
-  treelist_destructor_long_long(&tree);
 }
